@@ -1,0 +1,163 @@
+<mvc:View controllerName="cl3.syncyoung.pp.porder.planorderlist.controller.ListView"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:vl="sap.ui.layout"
+    xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+    xmlns:t="sap.ui.table"
+    xmlns:u="sap.ui.unified">
+    <Page id="page" title="{i18n>title}">
+        <vl:Grid defaultSpan="XL6 L6 M12 S12" width="100%">
+                 
+            <!-- 첫 번째 Panel -->
+            <Panel class="marginPanel">
+                <headerToolbar>
+                    <Toolbar class="customToolbar">
+                        <Title text="{i18n>panelTitle}" />
+                    </Toolbar>
+                </headerToolbar>
+                <VBox>
+                    <!-- Input 요소들 -->
+                    <Input id="IPlordco" width="200px" placeholder="계획오더번호를 입력하세요"/>
+                    <!-- Input id="IMatnr" width="200px" placeholder="자재코드"/-->
+                    <ComboBox id="MatcodeComboBox" 
+                              placeholder="자재코드를 선택하세요" 
+                              showSecondaryValues= "true"
+                              items="{
+                                        path: 'filteredStock>/',
+                                        sorter: { path: 'matnr' }
+                                      }">
+                        <core:ListItem key="{filteredStock>matnr}" text="{filteredStock>matnr}" additionalText="{filteredStock>maktx}" />
+                    </ComboBox>
+                    
+                    <!-- HBox로 버튼을 오른쪽 끝에 정렬 -->
+                    <HBox justifyContent="End">
+                        <Button text="조회"   icon="sap-icon://search" press="onSearch" />
+                        <Text text="　"/>
+                        <Button text="초기화" icon="sap-icon://refresh" press="onReset" />
+                    </HBox>
+                </VBox>
+            </Panel>
+
+            <!-- 두 번째 Panel -->
+            <Panel class="marginPanel">
+                <headerToolbar>
+                    <Toolbar class="customToolbar">
+                        <Title text="{i18n>panelTitle2}" />
+                    </Toolbar>
+                </headerToolbar>
+                <VBox>
+                    <HBox>
+                        <core:Icon src="sap-icon://circle-task-2"
+                                   color="#FF0000"/>
+                        <Text text="　　" />
+                        <Text text="구매 요청 대기" />
+                        <Text text="Test를 해볼게요"/>
+                        <Text text="진짜 이게 바뀌면 좋겠어요"/>
+                    </HBox>
+                    <Text text="" />
+                    <HBox>
+                        <core:Icon src="sap-icon://project-definition-triangle-2"
+                                   color="#FFFF00"/>
+                        <Text text="　　" />
+                        <Text text="구매 요청 진행" />
+                    </HBox>
+                    <Text text="" />
+                    <HBox>
+                        <core:Icon src="sap-icon://color-fill"
+                                   color="#00FF00"/>
+                        <Text text="　　" />
+                        <Text text="자재 입고 완료" />
+                    </HBox>
+                </VBox>
+            </Panel>
+
+        </vl:Grid>
+
+        <vl:Grid defaultSpan="XL12 L12 M12 S12" width="100%">
+
+            <t:Table id="headerlist"
+                 rows="{/PorderheaderSet}"
+			     selectionMode="MultiToggle"
+			     paste="onPaste"
+			     ariaLabelledBy="title">
+                 <t:extension>
+                    <OverflowToolbar style="Clear" class="customToolbar">
+                        <Title id="title" text="계획오더 Header"/>
+                    </OverflowToolbar>
+                </t:extension>
+                <t:columns>
+                    <t:Column width="3rem" hAlign="Center">
+                            <Label text="상태" />
+                            <t:template>
+                                <core:Icon src="{path: 'Insst', formatter: '.statusIconColor'}" 
+                                           color="{path: 'Insst', formatter: '.statusIconColorCSS'}" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="생산계획번호" />
+                            <t:template>
+                                <Text text="{Pdpcode}" wrapping="false" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="계획오더번호" />
+                            <t:template>
+                                <Text text="{Plordco}" wrapping="false" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="자재코드" />
+                            <t:template>
+                                <Text text="{Matnr}" wrapping="false" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="21rem">
+                            <Label text="자재명" />
+                            <t:template>
+                                <Text text="{Maktx}" wrapping="false"/>
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="생산계획일자" />
+                            <t:template>
+                                <Text text="{
+                                    path: 'Pdpdat',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'long',
+                                    source: {
+                                    pattern: 'yyyy/MM/dd'
+                                            }
+                                        }
+                                    }" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="제품납기일" />
+                            <t:template>
+                                <Text text="{
+                                    path: 'Pddld',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'long',
+                                    source: {
+                                    pattern: 'yyyy/MM/dd'
+                                            }
+                                        }
+                                    }" />
+                            </t:template>
+                    </t:Column>
+                    <t:Column width="11rem">
+                            <Label text="담당자" />
+                            <t:template>
+                                <Text text="{EmpNum}" wrapping="false" />
+                            </t:template>
+                    </t:Column>
+                </t:columns>
+            </t:Table>
+        </vl:Grid>
+
+    </Page>
+</mvc:View>

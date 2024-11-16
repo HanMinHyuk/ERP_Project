@@ -1,0 +1,9 @@
+/* Enter your custom styles here */
+
+.marginPanel {
+    margin-top: 10px; /* 원하는 여백 값 */
+}
+
+.customToolbar {
+    background-color: #D8D8D8 !important;
+}
