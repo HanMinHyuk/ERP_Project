@@ -69,6 +69,8 @@
                                    color="#00FF00"/>
                         <Text text="　　" />
                         <Text text="자재 입고 완료" />
+                        <Text text="자 이걸 보세요!! 수정할겁니다!!"/>
+                        <Text text="진짜 이거 보세요!! 수정합니다 진짜!!"/>
                     </HBox>
                 </VBox>
             </Panel>
