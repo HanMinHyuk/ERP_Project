@@ -4,9 +4,10 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/odata/v2/ODataModel",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/comp/valuehelpdialog/ValueHelpDialog"
 ],
-function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONModel) {
+function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONModel, ValueHelpDialog) {
     "use strict";
 
     return Controller.extend("cl3.syncyoung.pp.porder.planorderlist.controller.ListView", {
@@ -31,6 +32,58 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
                 
             });
 
+        },
+
+        onValueHelpRequest: function() {
+            var oInput = this.byId("IPlordco"); // 입력 필드
+            var oValueHelpDialog = new ValueHelpDialog({
+                title: "계획오더번호 선택",
+                supportMultiselect: false,
+                key: "Plordco",
+                descriptionKey: "Description",
+                ok: function (oEvent) {
+                    var aTokens = oEvent.getParameter("tokens");
+                    if (aTokens.length > 0) {
+                        oInput.setValue(aTokens[0].getKey());
+                    }
+                    oValueHelpDialog.close();
+                },
+                cancel: function () {
+                    oValueHelpDialog.close();
+                }
+            });
+
+            // OData 모델 가져오기
+            var oModel = this.getView().getModel(); // 기본 ODataModel 사용
+            oValueHelpDialog.setModel(oModel);      // ValueHelpDialog에 ODataModel 설정
+
+            // Table 설정
+            var oTable = oValueHelpDialog.getTable();
+            oTable.setModel(oModel);
+            oTable.bindRows("/PorderheaderSet");
+
+            // 열 추가
+            oTable.addColumn(new sap.ui.table.Column({
+                label: new sap.m.Label({ text: "계획오더번호" }),
+                template: new sap.m.Text({ text: "{Plordco}" }),
+                sortProperty: "Plordco",
+                filterProperty: "Plordco"
+            }));
+            oTable.addColumn(new sap.ui.table.Column({
+                label: new sap.m.Label({ text: "자재코드" }),
+                template: new sap.m.Text({ text: "{Matnr}" }),
+                sortProperty: "Matnr",
+                filterProperty: "Matnr"
+            }));
+            oTable.addColumn(new sap.ui.table.Column({
+                label: new sap.m.Label({ text: "자재명" }),
+                template: new sap.m.Text({ text: "{Maktx}" }),
+                sortProperty: "Maktx",
+                filterProperty: "Maktx"
+            }));
+
+            // 다이얼로그 열기
+            oValueHelpDialog.open();
         },
 
         statusIconColor: function(insst) {
@@ -152,7 +205,39 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
             oBinding.filter(aFilter); // Making한 검색 조건들을 Entityset에 날려준다.
 
-        }
+        },
+
+        onOpenDialog : function(oEvent){
+            var oButton  = oEvent.getSource();
+            var oContext = oButton.getParent().getBindingContext();   
+            var vPlordco   = oContext.getProperty('Plordco');          // 해당 코드를 통하여 ITEM의 키 필터인 aufnr의 값을 가져옴
+
+            console.log(vPlordco); // 버튼이 클릭된 row의 aufnr 필드의 값이 찍히는지 확인 -> 추후에 배포 시 해당 코드 지우기
+
+						// 팝업창
+            if(!this.pDialog){
+                this.pDialog = this.loadFragment({
+                    name : "cl3.syncyoung.pp.porder.planorderlist.fragment.Dialog"   // 이건 namespace와 .frgment.xml 파일의 이름으로 설정
+                });
+            }
+            
+            this.pDialog.then(function(oDialog){
+                var oTable = oDialog.getContent()[0];        // 다이얼로그에 보여줄 테이블 정보를 가져옴. 이 코드가 유효하려면 XML 파일에서 Dialog의 첫번째 자식이 Table이어야 함.
+
+                if (oTable && oTable.isA("sap.ui.table.Table")) {
+                    var oBinding = oTable.getBinding("rows");     // 선택한 행의 정보를 가져오고
+
+                    // 필터 설정
+                    var aFilter = [ new Filter("Plordco", FilterOperator.EQ, vPlordco )]  // 필터를 걸 필드명, 조회 조건, 특정값으로 필터를 추가
+                    oBinding.filter(aFilter);                                         //해당 필터를 테이블에 바인딩
+                }
+                oDialog.open();                                                       // 다이얼로그 창 열기
+            });   
+      },
+
+      onCloseDialog : function() {
+        this.byId("itemDialog").close();    // 다이얼로그 창 닫기
+      } 
 
 
     });

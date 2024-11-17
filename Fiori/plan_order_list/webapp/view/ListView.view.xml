@@ -6,8 +6,9 @@
     xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
     xmlns:t="sap.ui.table"
-    xmlns:u="sap.ui.unified">
-    <Page id="page" title="{i18n>title}">
+    xmlns:u="sap.ui.unified"
+    height="100%">
+    <Page id="page" title="{i18n>title}" enableScrolling="true" class="sapUiContentPadding">
         <vl:Grid defaultSpan="XL6 L6 M12 S12" width="100%">
                  
             <!-- 첫 번째 Panel -->
@@ -18,18 +19,25 @@
                     </Toolbar>
                 </headerToolbar>
                 <VBox>
-                    <!-- Input 요소들 -->
-                    <Input id="IPlordco" width="200px" placeholder="계획오더번호를 입력하세요"/>
-                    <!-- Input id="IMatnr" width="200px" placeholder="자재코드"/-->
-                    <ComboBox id="MatcodeComboBox" 
-                              placeholder="자재코드를 선택하세요" 
-                              showSecondaryValues= "true"
-                              items="{
-                                        path: 'filteredStock>/',
-                                        sorter: { path: 'matnr' }
-                                      }">
-                        <core:ListItem key="{filteredStock>matnr}" text="{filteredStock>matnr}" additionalText="{filteredStock>maktx}" />
-                    </ComboBox>
+                    <HBox>
+                        <Text text="계획오더번호:　" class="centeredText"/>
+                        <!-- Input 요소들 -->
+                        <Input id="IPlordco" width="250px" placeholder="계획오더번호를 입력하세요" showValueHelp="true" valueHelpRequest=".onValueHelpRequest"/>
+                    </HBox>
+                    <HBox>
+                        <Text text="자재코드:　　　" class="centeredText"/>
+                        <!-- Input id="IMatnr" width="200px" placeholder="자재코드"/-->
+                        <ComboBox id="MatcodeComboBox" 
+                                width="250px"
+                                placeholder="자재코드를 선택하세요" 
+                                showSecondaryValues= "true"
+                                items="{
+                                            path: 'filteredStock>/',
+                                            sorter: { path: 'matnr' }
+                                        }">
+                            <core:ListItem key="{filteredStock>matnr}" text="{filteredStock>matnr}" additionalText="{filteredStock>maktx}" />
+                        </ComboBox>
+                    </HBox>
                     
                     <!-- HBox로 버튼을 오른쪽 끝에 정렬 -->
                     <HBox justifyContent="End">
@@ -44,17 +52,15 @@
             <Panel class="marginPanel">
                 <headerToolbar>
                     <Toolbar class="customToolbar">
-                        <Title text="{i18n>panelTitle2}" />
+                        <Title text="{i18n>panelTitle2}"/>
                     </Toolbar>
                 </headerToolbar>
                 <VBox>
                     <HBox>
-                        <core:Icon src="sap-icon://circle-task-2"
+                        <core:Icon src="sap-icon://cart"
                                    color="#FF0000"/>
                         <Text text="　　" />
-                        <Text text="구매 요청 대기" />
-                        <Text text="Test를 해볼게요"/>
-                        <Text text="진짜 이게 바뀌면 좋겠어요"/>
+                        <Text text="구매 요청 대기"/>
                     </HBox>
                     <Text text="" />
                     <HBox>
@@ -69,35 +75,33 @@
                                    color="#00FF00"/>
                         <Text text="　　" />
                         <Text text="자재 입고 완료" />
-                        <Text text="자 이걸 보세요!! 수정할겁니다!!"/>
-                        <Text text="진짜 이거 보세요!! 수정합니다 진짜!!"/>
                     </HBox>
                 </VBox>
             </Panel>
 
         </vl:Grid>
 
-        <vl:Grid defaultSpan="XL12 L12 M12 S12" width="100%">
+        <vl:Grid defaultSpan="XL12 L12 M12 S12" width="100%" >
 
             <t:Table id="headerlist"
-                 rows="{/PorderheaderSet}"
-			     selectionMode="MultiToggle"
-			     paste="onPaste"
-			     ariaLabelledBy="title">
-                 <t:extension>
+                     rows="{/PorderheaderSet}"
+                     selectionMode="MultiToggle"
+                     paste="onPaste"
+                     ariaLabelledBy="title">
+                <t:extension>
                     <OverflowToolbar style="Clear" class="customToolbar">
                         <Title id="title" text="계획오더 Header"/>
                     </OverflowToolbar>
                 </t:extension>
                 <t:columns>
                     <t:Column width="3rem" hAlign="Center">
-                            <Label text="상태" />
+                            <Label text="상태"/>
                             <t:template>
                                 <core:Icon src="{path: 'Insst', formatter: '.statusIconColor'}" 
                                            color="{path: 'Insst', formatter: '.statusIconColorCSS'}" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="생산계획번호" />
                             <t:template>
                                 <Text text="{Pdpcode}" wrapping="false" />
@@ -106,10 +110,16 @@
                     <t:Column width="11rem">
                             <Label text="계획오더번호" />
                             <t:template>
-                                <Text text="{Plordco}" wrapping="false" />
+                                <Button
+                                        id="Plordco"
+                                        text="{Plordco}"
+                                        width="100%"
+                                        press="onOpenDialog"
+                                        class="sapUiSmallMarginCenter"
+                                        ariaHasPopup="Dialog" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="자재코드" />
                             <t:template>
                                 <Text text="{Matnr}" wrapping="false" />

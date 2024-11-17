@@ -1,0 +1,102 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+    xmlns:t="sap.ui.table"
+	xmlns:core="sap.ui.core">
+    <Dialog id="itemDialog" title="ITEM LIST">
+									    
+		    <t:Table rows="{/PorderitemSet}" id="docList2" class="sapUiResponsiveMargin" selectionMode="None"
+				paste="onPaste" ariaLabelledBy="title">
+            <t:columns >
+
+                <t:Column width="7rem">
+                    <Label text="계획오더번호" class="bold" />
+                    <t:template>
+                        <Text text="{Plordco}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="BOM_ID" class="bold" />
+                    <t:template>
+                        <Text text="{Bomid}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="자재코드" class="bold" />
+                    <t:template>
+                        <Text text="{Matnr}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="자재명" class="bold" />
+                    <t:template>
+                        <Text text="{Maktx}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="자재유형" class="bold" />
+                    <t:template>
+                        <Text text="{Mtart}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="수량" class="bold" />
+                    <t:template>
+                        <Text text="{Quant}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                 <t:Column width="7rem">
+                    <Label text="계획수량" class="bold" />
+                    <t:template>
+                        <Text text="{Pqua}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="현재재고" class="bold" />
+                    <t:template>
+                        <Text text="{HRtptqua}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="필요소요량" class="bold" />
+                    <t:template>
+                        <Text text="{Rqamt}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="단위" class="bold" />
+                    <t:template>
+                        <Text text="{Unit}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="희망구매요청일" class="bold" />
+                    <t:template>
+                        <Text text="{Matod}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="공정시작일" class="bold" />
+                    <t:template>
+                        <Text text="{Ppstr}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+            </t:columns>
+        </t:Table>
+        
+        <beginButton>
+            <Button text="닫기" press="onCloseDialog" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>
