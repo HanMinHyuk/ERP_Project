@@ -15,17 +15,17 @@
             <Panel class="marginPanel">
                 <headerToolbar>
                     <Toolbar class="customToolbar">
-                        <Title text="{i18n>panelTitle}" />
+                        <Label text="{i18n>panelTitle}" design="Bold"/>
                     </Toolbar>
                 </headerToolbar>
                 <VBox>
                     <HBox>
-                        <Text text="계획오더번호:　" class="centeredText"/>
+                        <Label text="계획오더번호:　" class="centeredText" design="Bold"/>
                         <!-- Input 요소들 -->
                         <Input id="IPlordco" width="250px" placeholder="계획오더번호를 입력하세요" showValueHelp="true" valueHelpRequest=".onValueHelpRequest"/>
                     </HBox>
                     <HBox>
-                        <Text text="자재코드:　　　" class="centeredText"/>
+                        <Label text="자재코드:　　　" class="centeredText" design="Bold"/>
                         <!-- Input id="IMatnr" width="200px" placeholder="자재코드"/-->
                         <ComboBox id="MatcodeComboBox" 
                                 width="250px"
@@ -52,29 +52,29 @@
             <Panel class="marginPanel">
                 <headerToolbar>
                     <Toolbar class="customToolbar">
-                        <Title text="{i18n>panelTitle2}"/>
+                        <Label text="{i18n>panelTitle2}" design="Bold"/>
                     </Toolbar>
                 </headerToolbar>
                 <VBox>
                     <HBox>
                         <core:Icon src="sap-icon://cart"
-                                   color="#FF0000"/>
-                        <Text text="　　" />
-                        <Text text="구매 요청 대기"/>
+                                   color="#DF0101"/>
+                        <Text text="　" />
+                        <Label text="구매 요청 대기" design="Bold"/>
                     </HBox>
                     <Text text="" />
                     <HBox>
-                        <core:Icon src="sap-icon://project-definition-triangle-2"
-                                   color="#FFFF00"/>
-                        <Text text="　　" />
-                        <Text text="구매 요청 진행" />
+                        <core:Icon src="sap-icon://cart-3"
+                                   color="#D7DF01"/>
+                        <Text text="　" />
+                        <Label text="구매 요청 진행" design="Bold"/>
                     </HBox>
                     <Text text="" />
                     <HBox>
-                        <core:Icon src="sap-icon://color-fill"
-                                   color="#00FF00"/>
-                        <Text text="　　" />
-                        <Text text="자재 입고 완료" />
+                        <core:Icon src="sap-icon://cart-approval"
+                                   color="#01DF01"/>
+                        <Text text="　" />
+                        <Label text="자재 입고 완료" design="Bold"/>
                     </HBox>
                 </VBox>
             </Panel>
@@ -89,25 +89,25 @@
                      paste="onPaste"
                      ariaLabelledBy="title">
                 <t:extension>
-                    <OverflowToolbar style="Clear" class="customToolbar">
-                        <Title id="title" text="계획오더 Header"/>
-                    </OverflowToolbar>
+                    <Toolbar class="customToolbar">
+                        <Label text="계획오더 Header" design="Bold"/>
+                    </Toolbar>
                 </t:extension>
                 <t:columns>
                     <t:Column width="3rem" hAlign="Center">
-                            <Label text="상태"/>
+                            <Label text="상태" design="Bold"/>
                             <t:template>
                                 <core:Icon src="{path: 'Insst', formatter: '.statusIconColor'}" 
                                            color="{path: 'Insst', formatter: '.statusIconColorCSS'}" />
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="생산계획번호" />
+                            <Label text="생산계획번호"/>
                             <t:template>
                                 <Text text="{Pdpcode}" wrapping="false" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="계획오더번호" />
                             <t:template>
                                 <Button
@@ -131,7 +131,7 @@
                                 <Text text="{Maktx}" wrapping="false"/>
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="생산계획일자" />
                             <t:template>
                                 <Text text="{
@@ -146,7 +146,7 @@
                                     }" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="제품납기일" />
                             <t:template>
                                 <Text text="{
@@ -161,7 +161,7 @@
                                     }" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem">
+                    <t:Column width="11rem" hAlign="Center">
                             <Label text="담당자" />
                             <t:template>
                                 <Text text="{EmpNum}" wrapping="false" />

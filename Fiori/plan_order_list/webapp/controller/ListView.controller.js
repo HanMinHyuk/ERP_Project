@@ -37,7 +37,7 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
         onValueHelpRequest: function() {
             var oInput = this.byId("IPlordco"); // 입력 필드
             var oValueHelpDialog = new ValueHelpDialog({
-                title: "계획오더번호 선택",
+                title: "계획오더번호",
                 supportMultiselect: false,
                 key: "Plordco",
                 descriptionKey: "Description",
@@ -67,7 +67,8 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
                 label: new sap.m.Label({ text: "계획오더번호" }),
                 template: new sap.m.Text({ text: "{Plordco}" }),
                 sortProperty: "Plordco",
-                filterProperty: "Plordco"
+                filterProperty: "Plordco",
+                class: "customToolbar"
             }));
             oTable.addColumn(new sap.ui.table.Column({
                 label: new sap.m.Label({ text: "자재코드" }),
@@ -89,24 +90,24 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
         statusIconColor: function(insst) {
             switch (insst) {
                 case "01":
-                    return "sap-icon://circle-task-2"; // 빨간색 아이콘
+                    return "sap-icon://cart"; // 빨간색 아이콘
                 case "02":
-                    return "sap-icon://project-definition-triangle-2"; // 노란색 아이콘
+                    return "sap-icon://cart-3"; // 노란색 아이콘
                 case "03":
-                    return "sap-icon://color-fill"; // 초록색 아이콘
+                    return "sap-icon://cart-approval"; // 초록색 아이콘
                 default:
-                    return "sap-icon://status-inactive"; // 기본 아이콘
+                    return "sap-icon://cart-approval"; // 기본 아이콘
             }
         },
 
         statusIconColorCSS: function(insst) {
             switch (insst) {
                 case "01":
-                    return "#FF0000"; // 빨간색
+                    return "#DF0101"; // 빨간색
                 case "02":
-                    return "#FFFF00"; // 노란색
+                    return "#D7DF01"; // 노란색
                 case "03":
-                    return "#00FF00"; // 초록색
+                    return "#01DF01"; // 초록색
                 default:
                     return ""; // 기본
             }

@@ -2,7 +2,7 @@
 	xmlns="sap.m"
     xmlns:t="sap.ui.table"
 	xmlns:core="sap.ui.core">
-    <Dialog id="itemDialog" title="ITEM LIST">
+    <Dialog id="itemDialog" title="계획오더 Item">
 									    
 		    <t:Table rows="{/PorderitemSet}" id="docList2" class="sapUiResponsiveMargin" selectionMode="None"
 				paste="onPaste" ariaLabelledBy="title">
@@ -36,7 +36,7 @@
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
+                <t:Column width="5rem">
                     <Label text="자재유형" class="bold" />
                     <t:template>
                         <Text text="{Mtart}" wrapping="false" />
@@ -44,34 +44,30 @@
                 </t:Column>
 
                 <t:Column width="7rem">
-                    <Label text="수량" class="bold" />
+                    <Label text="현재재고" class="bold" />
                     <t:template>
-                        <Text text="{Quant}" wrapping="false" />
+                        <!--Text text="{HRtptqua}" wrapping="false" /-->
+                        <Text text="{= parseFloat(parseFloat(${HRtptqua}).toFixed(2))}" wrapping="false"/>
                     </t:template>
                 </t:Column>
 
                  <t:Column width="7rem">
                     <Label text="계획수량" class="bold" />
                     <t:template>
-                        <Text text="{Pqua}" wrapping="false" />
-                    </t:template>
-                </t:Column>
-
-                <t:Column width="7rem">
-                    <Label text="현재재고" class="bold" />
-                    <t:template>
-                        <Text text="{HRtptqua}" wrapping="false" />
+                        <!--Text text="{Pqua}" wrapping="false" /-->
+                        <Text text="{= parseFloat(parseFloat(${Pqua}).toFixed(2))}" wrapping="false"/>
                     </t:template>
                 </t:Column>
 
                 <t:Column width="7rem">
                     <Label text="필요소요량" class="bold" />
                     <t:template>
-                        <Text text="{Rqamt}" wrapping="false" />
+                        <!--Text text="{Rqamt}" wrapping="false" /-->
+                        <Text text="{= parseFloat(parseFloat(${Rqamt}).toFixed(2))}" wrapping="false"/>
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
+                <t:Column width="3rem">
                     <Label text="단위" class="bold" />
                     <t:template>
                         <Text text="{Unit}" wrapping="false" />
