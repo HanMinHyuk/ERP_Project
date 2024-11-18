@@ -238,7 +238,7 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
       onCloseDialog : function() {
         this.byId("itemDialog").close();    // 다이얼로그 창 닫기
-      } 
+      }
 
 
     });

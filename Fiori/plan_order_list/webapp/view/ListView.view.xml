@@ -83,16 +83,23 @@
 
         <vl:Grid defaultSpan="XL12 L12 M12 S12" width="100%" >
 
+            <Panel class="fullHeightPanel">
+            <headerToolbar>
+                <Toolbar class="customToolbar">
+                    <Label text="{i18n>panelTitle2}" design="Bold"/>
+                </Toolbar>
+            </headerToolbar>
             <t:Table id="headerlist"
                      rows="{/PorderheaderSet}"
                      selectionMode="MultiToggle"
                      paste="onPaste"
-                     ariaLabelledBy="title">
-                <t:extension>
-                    <Toolbar class="customToolbar">
-                        <Label text="계획오더 Header" design="Bold"/>
-                    </Toolbar>
-                </t:extension>
+                     ariaLabelledBy="title"
+                     class="table1">
+                <!--t:extension-->
+                    <!--Toolbar class="customToolbar"-->
+                        <!--Label text="계획오더 Header" design="Bold"/-->
+                    <!--/Toolbar-->
+                <!--/t:extension-->
                 <t:columns>
                     <t:Column width="3rem" hAlign="Center">
                             <Label text="상태" design="Bold"/>
@@ -102,13 +109,13 @@
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="생산계획번호"/>
+                            <Label text="생산계획번호" design="Bold"/>
                             <t:template>
                                 <Text text="{Pdpcode}" wrapping="false" />
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="계획오더번호" />
+                            <Label text="계획오더번호" design="Bold"/>
                             <t:template>
                                 <Button
                                         id="Plordco"
@@ -119,20 +126,20 @@
                                         ariaHasPopup="Dialog" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem" hAlign="Center">
-                            <Label text="자재코드" />
+                    <t:Column width="9rem" hAlign="Center">
+                            <Label text="자재코드" design="Bold"/>
                             <t:template>
                                 <Text text="{Matnr}" wrapping="false" />
                             </t:template>
                     </t:Column>
                     <t:Column width="21rem">
-                            <Label text="자재명" />
+                            <Label text="자재명" design="Bold"/>
                             <t:template>
                                 <Text text="{Maktx}" wrapping="false"/>
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="생산계획일자" />
+                            <Label text="생산계획일자" design="Bold"/>
                             <t:template>
                                 <Text text="{
                                     path: 'Pdpdat',
@@ -147,7 +154,7 @@
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="제품납기일" />
+                            <Label text="제품납기일" design="Bold"/>
                             <t:template>
                                 <Text text="{
                                     path: 'Pddld',
@@ -162,13 +169,14 @@
                             </t:template>
                     </t:Column>
                     <t:Column width="11rem" hAlign="Center">
-                            <Label text="담당자" />
+                            <Label text="담당자" design="Bold"/>
                             <t:template>
                                 <Text text="{EmpNum}" wrapping="false" />
                             </t:template>
                     </t:Column>
                 </t:columns>
             </t:Table>
+            </Panel>
         </vl:Grid>
 
     </Page>

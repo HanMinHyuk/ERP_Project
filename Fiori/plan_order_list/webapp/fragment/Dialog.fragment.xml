@@ -5,62 +5,62 @@
     <Dialog id="itemDialog" title="계획오더 Item">
 									    
 		    <t:Table rows="{/PorderitemSet}" id="docList2" class="sapUiResponsiveMargin" selectionMode="None"
-				paste="onPaste" ariaLabelledBy="title">
+				     paste="onPaste" ariaLabelledBy="title">
             <t:columns >
 
                 <t:Column width="7rem">
-                    <Label text="계획오더번호" class="bold" />
+                    <Label text="계획오더번호" design="Bold" />
                     <t:template>
                         <Text text="{Plordco}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
                 <t:Column width="7rem">
-                    <Label text="BOM_ID" class="bold" />
+                    <Label text="BOM_ID" design="Bold" />
                     <t:template>
                         <Text text="{Bomid}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="자재코드" class="bold" />
+                <t:Column width="5rem">
+                    <Label text="자재코드" design="Bold" />
                     <t:template>
                         <Text text="{Matnr}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="자재명" class="bold" />
+                <t:Column width="20rem">
+                    <Label text="자재명" design="Bold" />
                     <t:template>
                         <Text text="{Maktx}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
                 <t:Column width="5rem">
-                    <Label text="자재유형" class="bold" />
+                    <Label text="자재유형" design="Bold" />
                     <t:template>
                         <Text text="{Mtart}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="현재재고" class="bold" />
+                <t:Column width="5rem">
+                    <Label text="현재재고" design="Bold" />
                     <t:template>
                         <!--Text text="{HRtptqua}" wrapping="false" /-->
                         <Text text="{= parseFloat(parseFloat(${HRtptqua}).toFixed(2))}" wrapping="false"/>
                     </t:template>
                 </t:Column>
 
-                 <t:Column width="7rem">
-                    <Label text="계획수량" class="bold" />
+                 <t:Column width="5rem">
+                    <Label text="계획수량" design="Bold" />
                     <t:template>
                         <!--Text text="{Pqua}" wrapping="false" /-->
                         <Text text="{= parseFloat(parseFloat(${Pqua}).toFixed(2))}" wrapping="false"/>
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="필요소요량" class="bold" />
+                <t:Column width="6rem">
+                    <Label text="필요소요량" design="Bold" />
                     <t:template>
                         <!--Text text="{Rqamt}" wrapping="false" /-->
                         <Text text="{= parseFloat(parseFloat(${Rqamt}).toFixed(2))}" wrapping="false"/>
@@ -68,23 +68,41 @@
                 </t:Column>
 
                 <t:Column width="3rem">
-                    <Label text="단위" class="bold" />
+                    <Label text="단위" design="Bold" />
                     <t:template>
                         <Text text="{Unit}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="희망구매요청일" class="bold" />
+                <t:Column width="9rem">
+                    <Label text="구매요청일" design="Bold" />
                     <t:template>
-                        <Text text="{Matod}" wrapping="false" />
+                        <Text text="{
+                                    path: 'Matod',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'long',
+                                    source: {
+                                    pattern: 'yyyy/MM/dd'
+                                            }
+                                        }
+                                    }" />
                     </t:template>
                 </t:Column>
 
-                <t:Column width="7rem">
-                    <Label text="공정시작일" class="bold" />
+                <t:Column width="9rem">
+                    <Label text="공정시작일" design="Bold" />
                     <t:template>
-                        <Text text="{Ppstr}" wrapping="false" />
+                        <Text text="{
+                                    path: 'Ppstr',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'long',
+                                    source: {
+                                    pattern: 'yyyy/MM/dd'
+                                            }
+                                        }
+                                    }" />
                     </t:template>
                 </t:Column>
 
