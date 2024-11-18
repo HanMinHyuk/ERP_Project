@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: cl3.syncyoung.pp.pureq.purreqapproval
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://edu.bgis.co.kr:8001/
+          client: "100"
+        app:
+          name: ZC302PP_PUR_REQ
+          description: "[SYNC YOUNG - PP] 자재구매요청 결재시스템"
+          package: ZC3SYNCYOUNG_PP
+          transport: KYSK903871
+        exclude:
+          - /test/

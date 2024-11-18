@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGW_C302_PP0002_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Pureqheader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Banfn"/>
+                </Key>
+                <Property Name="Banfn" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="구매요청번호" sap:updatable="false"/>
+                <Property Name="Plordco" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="계획오더번호"/>
+                <Property Name="Bedat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="구매요청생성일자"/>
+                <Property Name="Bedar" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="수요량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Base Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="자재코드"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="자재명"/>
+                <Property Name="Rstatus" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="상태"/>
+                <Property Name="Erdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Created on"/>
+                <Property Name="Erzet" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time"/>
+                <Property Name="Ernam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Created by"/>
+                <Property Name="Aedat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Changed On"/>
+                <Property Name="Aezet" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time of change"/>
+                <Property Name="Aenam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Changed by"/>
+            </EntityType>
+            <EntityType Name="Pureqitem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Banfn"/>
+                    <PropertyRef Name="Plordco"/>
+                </Key>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="자재코드" sap:updatable="false"/>
+                <Property Name="Banfn" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="구매요청번호" sap:updatable="false"/>
+                <Property Name="Plordco" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="계획오더번호" sap:updatable="false"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="자재명"/>
+                <Property Name="Menge" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="Quantity"/>
+                <Property Name="Bedat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="PO Date"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Base Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="Netwr" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="Net Value"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:semantics="currency-code"/>
+                <Property Name="Remark" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="반려사유"/>
+                <Property Name="Erdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Created on"/>
+                <Property Name="Erzet" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time"/>
+                <Property Name="Ernam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Created by"/>
+                <Property Name="Aedat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Changed On"/>
+                <Property Name="Aezet" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time of change"/>
+                <Property Name="Aenam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Changed by"/>
+            </EntityType>
+            <EntityContainer Name="ZGW_C302_PP0002_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="PureqheaderSet" EntityType="ZGW_C302_PP0002_SRV.Pureqheader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="PureqitemSet" EntityType="ZGW_C302_PP0002_SRV.Pureqitem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGW_C302_PP0002_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGW_C302_PP0002_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
