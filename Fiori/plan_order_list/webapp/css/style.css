@@ -16,10 +16,6 @@
     margin: 6px;
 }
 
-.table1 {
-    border-radius: 3px;
-}
-
 .fullHeightPanel {
     height: calc(100vh - 1px); /* 화면 전체 높이에서 상단 여백 제외 */
     display: flex;

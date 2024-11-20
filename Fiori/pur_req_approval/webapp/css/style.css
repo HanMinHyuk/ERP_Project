@@ -1,1 +1,14 @@
 /* Enter your custom styles here */
+
+.customToolbar {
+    background-color: #D8D8D8 !important;
+}
+
+#myPanel {
+    padding-top: 6px;
+}
+
+.responsiveTable {
+    height: 100%; /* Panel 내에서 Table이 남은 공간을 채움 */
+    overflow-y: auto; /* Table 내부 스크롤 활성화 */
+}

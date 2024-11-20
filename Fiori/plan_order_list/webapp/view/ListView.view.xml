@@ -93,8 +93,7 @@
                      rows="{/PorderheaderSet}"
                      selectionMode="MultiToggle"
                      paste="onPaste"
-                     ariaLabelledBy="title"
-                     class="table1">
+                     ariaLabelledBy="title">
                 <!--t:extension-->
                     <!--Toolbar class="customToolbar"-->
                         <!--Label text="계획오더 Header" design="Bold"/-->
@@ -108,7 +107,7 @@
                                            color="{path: 'Insst', formatter: '.statusIconColorCSS'}" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem" hAlign="Center">
+                    <t:Column width="10rem" hAlign="Center">
                             <Label text="생산계획번호" design="Bold"/>
                             <t:template>
                                 <Text text="{Pdpcode}" wrapping="false" />
