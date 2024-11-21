@@ -1,0 +1,92 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+    xmlns:t="sap.ui.table"
+	xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+    <Dialog id="itemDialog" title="구매요청 Item">
+									    
+		    <t:Table rows="{/PureqitemSet}" id="docList2" class="sapUiResponsiveMargin" selectionMode="None"
+				     paste="onPaste" ariaLabelledBy="title" width="auto">
+            <t:columns >
+
+                <t:Column width="7rem">
+                    <Label text="구매요청번호" design="Bold" />
+                    <t:template>
+                        <Text text="{Banfn}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="계획오더번호" design="Bold" />
+                    <t:template>
+                        <Text text="{Plordco}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="5rem">
+                    <Label text="자재코드" design="Bold" />
+                    <t:template>
+                        <Text text="{Matnr}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="20rem">
+                    <Label text="자재명" design="Bold" />
+                    <t:template>
+                        <Text text="{Maktx}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="요청량" design="Bold"/>
+                    <t:template>
+                        <Text text="{
+                            parts:[{path:'Menge'}, {path:'Meins'}],
+                            type: 'sap.ui.model.type.Unit',
+                            formatOptions: {showMeasure: true }
+                            }" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="7rem">
+                    <Label text="단가" design="Bold"/>
+                    <t:template>
+                        <Text text="{
+                            parts:[{path:'Netwr'}, {path:'Waers'}],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {showMeasure: true }
+                            }" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="9rem">
+                    <Label text="희망구매요청일" design="Bold" />
+                    <t:template>
+                        <Text text="{
+                                    path: 'Bedat',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: {
+                                    style: 'long',
+                                    source: {
+                                    pattern: 'yyyy/MM/dd'
+                                            }
+                                        }
+                                    }" />
+                    </t:template>
+                </t:Column>
+
+                <t:Column width="15rem" hAlign="Center">
+                    <Label text="반려사유" design="Bold" />
+                    <t:template>
+                        <Text text="{Remark}" wrapping="false" />
+                    </t:template>
+                </t:Column>
+
+            </t:columns>
+        </t:Table>
+        
+        <beginButton>
+            <Button text="닫기" press="onCloseDialog" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

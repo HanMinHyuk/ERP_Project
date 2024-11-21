@@ -234,11 +234,11 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
                 }
                 oDialog.open();                                                       // 다이얼로그 창 열기
             });   
-      },
+        },
 
-      onCloseDialog : function() {
-        this.byId("itemDialog").close();    // 다이얼로그 창 닫기
-      }
+        onCloseDialog : function() {
+            this.byId("itemDialog").close();    // 다이얼로그 창 닫기
+        }
 
 
     });

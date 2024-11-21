@@ -16,105 +16,130 @@
                     key="All" />
                 <IconTabSeparator />
                 <IconTabFilter
-                    icon="sap-icon://begin"
+                    icon="sap-icon://media-play"
+                    iconColor="Default"
+                    count="{counts>/Rstatus3}"
+                    text="Complete"
+                    key="Complete" />
+                <IconTabFilter
+                    icon="sap-icon://accept"
                     iconColor="Positive"
                     count="{counts>/Rstatus1}"
                     text="Approve"
                     key="Approve" />
                 <IconTabFilter
-                    icon="sap-icon://compare"
-                    iconColor="Critical"
+                    icon="sap-icon://decline"
+                    iconColor="Negative"
                     count="{counts>/Rstatus2}"
                     text="Companion"
                     key="Companion" />
                 <IconTabFilter
-                    icon="sap-icon://inventory"
-                    iconColor="Negative"
-                    count="{counts>/Rstatus3}"
-                    text="Complete"
-                    key="Complete" />
-                <IconTabFilter
-                    icon="sap-icon://inventory"
-                    iconColor="Negative"
+                    icon="sap-icon://italic-text"
+                    iconColor="Neutral"
                     count="{counts>/Rstatus4}"
                     text="Wait"
                     key="Wait" />
             </items>
-            <!--
-            <!Panel id= "myPanel" >
-                <headerToolbar>
-                    <Toolbar class="customToolbar">
-                        <Label text="{i18n>panelTitle}" design="Bold"/>
-                    </Toolbar>
-                </headerToolbar><-->
-                <content>
+            <content >
                 <t:Table id="headerlist"
                         rows="{/PureqheaderSet}"
-                        selectionMode="MultiToggle"
+                        selectionMode="{viewModel>/isSelectionMode}"
                         paste="onPaste"
                         ariaLabelledBy="title"
                         class="responsiveTable"
                         visibleRowCountMode="Auto"
-                        minAutoRowCount="17">
-                    <!--t:extension-->
-                        <!--Toolbar class="customToolbar"-->
-                            <!--Label text="계획오더 Header" design="Bold"/-->
-                        <!--/Toolbar-->
-                    <!--/t:extension-->
+                        minAutoRowCount="11"
+                        width="100%">
+                    <t:extension>
+                        <Toolbar class="customToolbar">
+                            <Label text="계획오더 Header" design="Bold"/>
+                            <ToolbarSpacer/>
+                            <SearchField ariaLabelledBy="text1" 
+                                         id="maxPrice" 
+                                         liveChange="onFilter" 
+                                         placeholder="자재코드를 입력하세요."
+                                         visible="{viewModel>/isVisible}">
+                                <layoutData>
+                                    <OverflowToolbarLayoutData maxWidth="250px" shrinkable="true" priority="NeverOverflow"/>
+                                </layoutData>
+                            </SearchField>
+                            <Button text="Reset" 
+                                    type="Transparent" 
+                                    press="onReset"
+                                    visible="{viewModel>/isVisible}"/>
+                        </Toolbar>
+                    </t:extension>
                     <t:columns>
                         <t:Column width="3rem" hAlign="Center">
                                 <Label text="상태" design="Bold"/>
                                 <t:template>
                                     <core:Icon src="{path: 'Rstatus', formatter: '.statusIconColor'}" 
-                                            color="{path: 'Rstatus', formatter: '.statusIconColorCSS'}" />
+                                               color="{path: 'Rstatus', formatter: '.statusIconColorCSS'}" />
                                 </t:template>
                         </t:Column>
-                        <t:Column width="10rem" hAlign="Center">
+                        <t:Column width="7rem" hAlign="Center">
                                 <Label text="구매요청번호" design="Bold"/>
                                 <t:template>
                                     <Text text="{Banfn}" wrapping="false" />
                                 </t:template>
                         </t:Column>
-                        <t:Column width="10rem" hAlign="Center">
+                        <t:Column width="7rem" hAlign="Center">
                                 <Label text="계획오더번호" design="Bold"/>
                                 <t:template>
                                     <Text text="{Plordco}" wrapping="false" />
                                 </t:template>
                         </t:Column>
-                        <t:Column width="9rem" hAlign="Center">
+                        <t:Column width="7rem" hAlign="Center">
                                 <Label text="구매요청일자" design="Bold"/>
                                 <t:template>
                                     <Text text="{Bedat}" wrapping="false" />
                                 </t:template>
                         </t:Column>
-                        <t:Column width="8rem">
-                                <Label text="수요량" design="Bold"/>
-                                <t:template>
-                                    <Text text="{Bedar}" wrapping="false"/>
-                                </t:template>
+                        <t:Column width="7rem">
+                            <Label text="수요량" design="Bold"/>
+                            <t:template>
+                                <Text text="{
+                                    parts:[{path:'Bedar'}, {path:'Meins'}],
+                                    type: 'sap.ui.model.type.Unit',
+                                    formatOptions: {showMeasure: true }
+                                    }" wrapping="false" />
+                            </t:template>
                         </t:Column>
-                        <t:Column width="8rem">
-                                <Label text="단위" design="Bold"/>
-                                <t:template>
-                                    <Text text="{Meins}" wrapping="false"/>
-                                </t:template>
-                        </t:Column>
-                        <t:Column width="8rem">
+                        <t:Column width="8rem" hAlign="Center">
                                 <Label text="자재코드" design="Bold"/>
                                 <t:template>
                                     <Text text="{Matnr}" wrapping="false"/>
                                 </t:template>
                         </t:Column>
-                        <t:Column width="20rem" hAlign="Center">
+                        <t:Column width="20rem" >
                                 <Label text="자재명" design="Bold"/>
                                 <t:template>
                                     <Text text="{Maktx}" wrapping="false" />
                                 </t:template>
                         </t:Column>
+                        <t:Column width="11rem" hAlign="Center">
+                            <Label text="구매요청 상세" design="Bold"/>
+                            <t:template>
+                                <Button
+                                        id="Detail"
+                                        text="상세"
+                                        width="100%"
+                                        press="onOpenDialog"
+                                        class="sapUiSmallMarginCenter"
+                                        ariaHasPopup="Dialog" />
+                            </t:template>
+                        </t:Column>
                     </t:columns>
                 </t:Table>
-                </content>
-            <!--/Panel-->
+            </content>
         </IconTabBar>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button text="승인" icon="sap-icon://sys-enter" press="onApproveConfirm" type="Accept"/>
+
+                <Button text="반려" icon="sap-icon://sys-cancel" press="onRejectConfirm" type="Reject"/>
+            </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>
