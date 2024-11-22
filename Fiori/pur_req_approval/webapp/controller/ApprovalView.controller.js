@@ -8,10 +8,14 @@ sap.ui.define([
 function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
     "use strict";
 
+    let self = null;
+
     return Controller.extend("cl3.syncyoung.pp.pureq.purreqapproval.controller.ApprovalView", {
         onInit: function () {
 
-            // OData 모델 가져오기
+            self = this;
+
+            /* OData 모델 가져오기 */
             var oModel = this.getOwnerComponent().getModel();
 
             // rstatus에 따라 개수 계산
@@ -52,13 +56,51 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                 }
             });
 
-            // 아이콘에 따라 검색창과 버튼의 유무를 표시하기 위한 초기 작업
+            /* 아이콘에 따라 검색창과 버튼의 유무를 표시하기 위한 초기 작업 */
             var oViewModel = new JSONModel({
                 isVisible: true, // 초기값: true (All 탭)
-                isSelectionMode: "None"
+                isVisible2: false,
+                isSelectionMode: "Single"
             });
             this.getView().setModel(oViewModel, "viewModel");
 
+        },
+
+        onUpdateCounts: function () {
+            var oModel = this.getView().getModel(); // OData 모델
+        
+            // OData 데이터를 다시 읽어와 개수를 계산
+            oModel.read("/PureqheaderSet", {
+                success: function (oData) {
+                    var aProducts = oData.results;
+        
+                    // Rstatus별 개수 계산
+                    var iTotal = aProducts.length;
+                    var iRstatus1Count = aProducts.filter(function (item) {
+                        return item.Rstatus === "A";
+                    }).length;
+                    var iRstatus2Count = aProducts.filter(function (item) {
+                        return item.Rstatus === "B";
+                    }).length;
+                    var iRstatus3Count = aProducts.filter(function (item) {
+                        return item.Rstatus === "C";
+                    }).length;
+                    var iRstatus4Count = aProducts.filter(function (item) {
+                        return item.Rstatus === "";
+                    }).length;
+        
+                    // 개수를 JSON 모델로 업데이트
+                    var oCountModel = this.getView().getModel("counts");
+                    oCountModel.setProperty("/Total", iTotal);
+                    oCountModel.setProperty("/Rstatus1", iRstatus1Count);
+                    oCountModel.setProperty("/Rstatus2", iRstatus2Count);
+                    oCountModel.setProperty("/Rstatus3", iRstatus3Count);
+                    oCountModel.setProperty("/Rstatus4", iRstatus4Count);
+                }.bind(this),
+                error: function (oError) {
+                    console.error("Error reading data:", oError);
+                }
+            });
         },
 
         // 상태에 따라 Icon이 Setting 된다.
@@ -100,7 +142,8 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                 oViewModel = this.getView().getModel("viewModel");
 
             oViewModel.setProperty("/isVisible", false); // 다른 탭일 때 숨기기
-            oViewModel.setProperty("/isSelectionMode", "None"); // 다른 탭일 때 선택 못하게 만들기
+            oViewModel.setProperty("/isVisible2", false); // 다른 탭일 때 숨기기
+            oViewModel.setProperty("/isSelectionMode", "Single"); // 다른 탭일 때 선택 못하게 만들기
             
 			if (sKey === "Approve") {
 				oFilter = new Filter({
@@ -124,8 +167,9 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                 oFilter = new Filter({
                     path: "Rstatus",
                     operator: FilterOperator.EQ,
-                    value1: null
+                    value1: ""
                 })
+                oViewModel.setProperty("/isVisible2", true); // 다른 탭일 때 숨기기
                 oViewModel.setProperty("/isSelectionMode", "MultiToggle"); // Wait 탭일 때 선택 못하게 만들기
             } else {
                 oViewModel.setProperty("/isVisible", true); // All 탭일 때 보이기
@@ -198,6 +242,28 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
 			this.byId("headerlist").getBinding("rows").filter(aFilters);
 		},
 
+        // 정보 버튼
+        onInfoConfirm: function() {
+            // 팝업 Dialog 생성
+            var oDialog = new sap.m.Dialog({
+                title: "정보",
+                type: "Message",
+                content: new sap.m.Text({ text: "Wait 아이콘을 누를 시 승인 및 반려가 가능합니다." }),
+                beginButton: new sap.m.Button({
+                    text: "닫기",
+                    type: "Accept",
+                    press: function () {
+                        oDialog.close(); // 팝업 닫기
+                    }.bind(this)
+                }),
+                afterClose: function () {
+                    oDialog.destroy(); // 팝업 메모리 해제
+                }
+            });
+        
+            oDialog.open(); // 팝업 표시
+        },
+
         // 승인 버튼
         onApproveConfirm: function () {
             var oTable = this.byId("headerlist"), // 테이블 ID
@@ -221,6 +287,7 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                     press: function () {
                         this.onApprove(); // 승인 작업 수행
                         oDialog.close(); // 팝업 닫기
+                        MessageToast.show("구매요청을 승인하였습니다.")
                     }.bind(this)
                 }),
                 endButton: new sap.m.Button({
@@ -257,17 +324,23 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                 return;
             }
 
+            // console.log(aSelectedData[0]);
+            // return;
+
             // Rstatus 업데이트 및 OData 호출
             aSelectedData.forEach(function (oItem) {
                 oItem.Rstatus = "A"; // Rstatus를 'A'로 변경
                 var sPath = oModel.createKey("/PureqheaderSet", { Banfn: oItem.Banfn }); // 키를 생성
                 oModel.update(sPath, oItem, {
+                    method: 'MERGE',
                     success: function () {
-                        sap.m.MessageToast.show("승인이 성공적으로 처리되었습니다.");
+                        self.onUpdateCounts();
+                        oModel.refresh();
+                        console.log("PureqheaderSet 업데이트 성공(승인)");
                     },
                     error: function (oError) {
-                        console.error("업데이트 실패:", oError);
-                        sap.m.MessageToast.show("업데이트 중 오류가 발생했습니다.");
+                        console.error("PureqheaderSet 업데이트 실패(승인):", oError);
+                        MessageToast.show("승인 중 오류가 발생했습니다.");
                     }
                 });
             });
@@ -313,7 +386,118 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
             oDialog.open(); // 팝업 표시
         },
         onReject: function() {
-            
+
+            var oTable = this.byId("headerlist"),
+                aSelectedIndices = oTable.getSelectedIndices(),
+                oModel = this.getView().getModel();
+
+            if (aSelectedIndices.length === 0) {
+                sap.m.MessageToast.show("행을 선택하세요.");
+                return;
+            }
+
+            // 반려사유 입력 팝업 생성
+            var oDialog = new sap.m.Dialog({
+                title: "반려사유 입력",
+                type: "Message",
+                content: new sap.m.TextArea({
+                    id: "reasonInput",
+                    placeholder: "반려 사유를 입력하세요.",
+                    width: "100%",
+                    rows: 4
+                }),
+                beginButton: new sap.m.Button({
+                    text: "확인",
+                    press: function () {
+                        var sReason = sap.ui.getCore().byId("reasonInput").getValue();
+                        if (!sReason.trim()) {
+                            sap.m.MessageToast.show("반려 사유를 입력해주세요.");
+                            return;
+                        }
+
+                        // 선택된 행 처리
+                        aSelectedIndices.forEach(function (iIndex) {
+                            var oContext = oTable.getContextByIndex(iIndex);
+                            if (oContext) {
+                                var oData = oContext.getObject();
+
+                                // 1. PureqitemSet 업데이트
+                                oModel.read("/PureqitemSet", {
+                                    filters: [new sap.ui.model.Filter("Banfn", sap.ui.model.FilterOperator.EQ, oData.Banfn)],
+                                    success: function (oResult) {
+                                        if (oResult && oResult.results.length > 0) {
+                                            console.log("oResult:", oResult);
+
+                                            // 순차적으로 업데이트 실행
+                                            const updateSequentially = async () => {
+                                                for (const item of oResult.results) {
+                                                    item.Remark = sReason; // 반려 사유 추가
+                                                    const sItemPath = oModel.createKey("/PureqitemSet", {
+                                                        Matnr: item.Matnr,
+                                                        Banfn: item.Banfn,
+                                                        Plordco: item.Plordco
+                                                    });
+
+                                                    await new Promise((resolve, reject) => {
+                                                        oModel.update(sItemPath, item, {
+                                                            success: function () {
+                                                                console.log("PureqitemSet 업데이트 성공(반려)");
+                                                                resolve();
+                                                            },
+                                                            error: function (oError) {
+                                                                console.error("PureqitemSet 업데이트 실패(반려):", oError);
+                                                                reject(oError);
+                                                            }
+                                                        });
+                                                    });
+                                                }
+
+                                                // 2. PureqheaderSet 업데이트
+                                                oData.Rstatus = "B"; // Rstatus 업데이트
+                                                const sHeaderPath = oModel.createKey("/PureqheaderSet", { Banfn: oData.Banfn });
+                                                oModel.update(sHeaderPath, oData, {
+                                                    success: function () {
+                                                        sap.m.MessageToast.show("구매요청을 반려하였습니다.");
+                                                        self.onUpdateCounts();
+                                                        oModel.refresh();
+                                                        console.log("PureqheaderSet 업데이트 성공(반려)");
+                                                    },
+                                                    error: function (oError) {
+                                                        console.error("PureqheaderSet 업데이트 실패(반려):", oError);
+                                                    }
+                                                });
+                                            };
+
+                                            // 순차 업데이트 실행
+                                            updateSequentially().catch(function (error) {
+                                                console.error("순차 업데이트 중 오류 발생:", error);
+                                                sap.m.MessageToast.show("반려 중 오류가 발생했습니다.");
+                                            });
+                                        }
+                                    },
+                                    error: function (oError) {
+                                        console.error("PureqitemSet 읽기 실패:", oError);
+                                    }
+                                });
+                            }
+                        });
+
+                        oDialog.close(); // 다이얼로그 닫기
+                    }
+                }),
+                endButton: new sap.m.Button({
+                    text: "취소",
+                    press: function () {
+                        oDialog.close(); // 다이얼로그 닫기
+                    }
+                }),
+                afterClose: function () {
+                    oDialog.destroy(); // 메모리 해제
+                }
+            });
+
+            oDialog.open(); // 다이얼로그 열기
+                    
         }
 
     });

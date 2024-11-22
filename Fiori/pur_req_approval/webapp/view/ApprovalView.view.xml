@@ -16,17 +16,11 @@
                     key="All" />
                 <IconTabSeparator />
                 <IconTabFilter
-                    icon="sap-icon://media-play"
-                    iconColor="Default"
-                    count="{counts>/Rstatus3}"
-                    text="Complete"
-                    key="Complete" />
-                <IconTabFilter
-                    icon="sap-icon://accept"
-                    iconColor="Positive"
-                    count="{counts>/Rstatus1}"
-                    text="Approve"
-                    key="Approve" />
+                    icon="sap-icon://italic-text"
+                    iconColor="Neutral"
+                    count="{counts>/Rstatus4}"
+                    text="Wait"
+                    key="Wait" />
                 <IconTabFilter
                     icon="sap-icon://decline"
                     iconColor="Negative"
@@ -34,11 +28,17 @@
                     text="Companion"
                     key="Companion" />
                 <IconTabFilter
-                    icon="sap-icon://italic-text"
-                    iconColor="Neutral"
-                    count="{counts>/Rstatus4}"
-                    text="Wait"
-                    key="Wait" />
+                    icon="sap-icon://accept"
+                    iconColor="Positive"
+                    count="{counts>/Rstatus1}"
+                    text="Approve"
+                    key="Approve" />
+                <IconTabFilter
+                    icon="sap-icon://media-play"
+                    iconColor="Default"
+                    count="{counts>/Rstatus3}"
+                    text="Complete"
+                    key="Complete" />     
             </items>
             <content >
                 <t:Table id="headerlist"
@@ -64,7 +64,7 @@
                                 </layoutData>
                             </SearchField>
                             <Button text="Reset" 
-                                    type="Transparent" 
+                                    type="Ghost" 
                                     press="onReset"
                                     visible="{viewModel>/isVisible}"/>
                         </Toolbar>
@@ -135,10 +135,10 @@
         </IconTabBar>
         <footer>
             <OverflowToolbar>
+                <Button text="정보" icon="sap-icon://hint" press="onInfoConfirm" type="Ghost"/>
                 <ToolbarSpacer />
-                <Button text="승인" icon="sap-icon://sys-enter" press="onApproveConfirm" type="Accept"/>
-
-                <Button text="반려" icon="sap-icon://sys-cancel" press="onRejectConfirm" type="Reject"/>
+                <Button text="승인" icon="sap-icon://sys-enter" press="onApproveConfirm" type="Accept" visible="{viewModel>/isVisible2}"/>
+                <Button text="반려" icon="sap-icon://sys-cancel" press="onRejectConfirm" type="Reject" visible="{viewModel>/isVisible2}"/>
             </OverflowToolbar>
         </footer>
     </Page>

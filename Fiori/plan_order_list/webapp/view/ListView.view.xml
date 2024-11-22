@@ -81,9 +81,9 @@
 
         </vl:Grid>
 
-        <vl:Grid defaultSpan="XL12 L12 M12 S12" width="100%" >
+        <vl:Grid defaultSpan="XL12 L12 M12 S12" >
 
-            <Panel class="fullHeightPanel">
+            <Panel>
             <headerToolbar>
                 <Toolbar class="customToolbar">
                     <Label text="{i18n>panelTitle2}" design="Bold"/>
@@ -91,14 +91,11 @@
             </headerToolbar>
             <t:Table id="headerlist"
                      rows="{/PorderheaderSet}"
-                     selectionMode="MultiToggle"
+                     selectionMode="None"
                      paste="onPaste"
-                     ariaLabelledBy="title">
-                <!--t:extension-->
-                    <!--Toolbar class="customToolbar"-->
-                        <!--Label text="계획오더 Header" design="Bold"/-->
-                    <!--/Toolbar-->
-                <!--/t:extension-->
+                     ariaLabelledBy="title"
+                     visibleRowCountMode="Auto"
+                     minAutoRowCount="9">
                 <t:columns>
                     <t:Column width="3rem" hAlign="Center">
                             <Label text="상태" design="Bold"/>
@@ -107,17 +104,16 @@
                                            color="{path: 'Insst', formatter: '.statusIconColorCSS'}" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="10rem" hAlign="Center">
+                    <t:Column width="7rem" hAlign="Center">
                             <Label text="생산계획번호" design="Bold"/>
                             <t:template>
                                 <Text text="{Pdpcode}" wrapping="false" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem" hAlign="Center">
+                    <t:Column width="8rem" hAlign="Center">
                             <Label text="계획오더번호" design="Bold"/>
                             <t:template>
-                                <Button
-                                        id="Plordco"
+                                <Button id="Plordco"
                                         text="{Plordco}"
                                         width="100%"
                                         press="onOpenDialog"
@@ -125,7 +121,7 @@
                                         ariaHasPopup="Dialog" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="9rem" hAlign="Center">
+                    <t:Column width="5rem" hAlign="Center">
                             <Label text="자재코드" design="Bold"/>
                             <t:template>
                                 <Text text="{Matnr}" wrapping="false" />
@@ -167,7 +163,7 @@
                                     }" />
                             </t:template>
                     </t:Column>
-                    <t:Column width="11rem" hAlign="Center">
+                    <t:Column width="6rem" hAlign="Center">
                             <Label text="담당자" design="Bold"/>
                             <t:template>
                                 <Text text="{EmpNum}" wrapping="false" />
