@@ -32,6 +32,23 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
                 
             });
 
+            // 창 크기 조정 이벤트 핸들러 등록
+            this.adjustTableRows();
+            window.addEventListener("resize", this.adjustTableRows.bind(this));
+
+        },
+
+        adjustTableRows: function () {
+            const oTable = this.getView().byId("headerlist");
+            if (oTable) {
+                // 화면 높이에서 사용할 수 있는 가용 높이 계산
+                const iAvailableHeight = window.innerHeight - 300; // 상단/하단 여백 고려
+                const iRowHeight = 38; // 각 행의 높이 (픽셀)
+                const iVisibleRowCount = Math.floor(iAvailableHeight / iRowHeight); // 최소 3행
+        
+                // Table의 visibleRowCount 설정
+                oTable.setVisibleRowCount(iVisibleRowCount);
+            }
         },
 
         onValueHelpRequest: function() {
@@ -238,6 +255,11 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
         onCloseDialog : function() {
             this.byId("itemDialog").close();    // 다이얼로그 창 닫기
+        },
+
+        onExit: function () {
+            // 이벤트 리스너 제거
+            window.removeEventListener("resize", this.adjustTableRows.bind(this));
         }
 
 

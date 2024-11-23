@@ -17,7 +17,6 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
 
             /* OData 모델 가져오기 */
             var oModel = this.getOwnerComponent().getModel();
-
             // rstatus에 따라 개수 계산
             oModel.read("/PureqheaderSet", {
                 success: function (oData) {
@@ -64,6 +63,30 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
             });
             this.getView().setModel(oViewModel, "viewModel");
 
+            /* 자동으로 테이블의 높이 변경 */
+            // 창 크기 변경 이벤트 핸들러 추가
+            sap.ui.core.ResizeHandler.register(this.getView().byId("headerlist"), this.onResizeTable);
+            // 기본 초기화
+            this.adjustTableRows();
+            
+
+        },
+
+        // 창 크기 변경 시 호출되는 함수
+        onResizeTable: function () {
+            self.adjustTableRows();
+        },
+
+        adjustTableRows: function () {
+            var oTable = this.getView().byId("headerlist");
+            if (oTable) {
+                // 창 높이에 따라 테이블 높이 계산
+                var iAvailableHeight = window.innerHeight - 300; // 상단과 하단 여백을 제외한 높이
+                var iRowHeight = 33; // 테이블의 행 높이(픽셀)
+                var iVisibleRowCount = Math.floor(iAvailableHeight / iRowHeight); // 표시할 수 있는 행 수 계산
+
+                oTable.setVisibleRowCount(iVisibleRowCount);
+            }
         },
 
         onUpdateCounts: function () {
@@ -498,6 +521,10 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
 
             oDialog.open(); // 다이얼로그 열기
                     
+        },
+
+        onExit: function () {
+            sap.ui.core.ResizeHandler.deregister(this.getView().byId("headerlist"));
         }
 
     });

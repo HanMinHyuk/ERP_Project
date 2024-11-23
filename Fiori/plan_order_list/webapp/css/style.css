@@ -21,3 +21,25 @@
     display: flex;
     flex-direction: column;
 }
+
+/* IconTabBar 높이 및 스크롤 제거 */
+#idIconTabBar {
+    overflow: hidden !important; /* 스크롤 숨김 */
+}
+
+.sapMITBContent {
+    overflow-y: hidden !important; /* 수직 스크롤 숨김 */
+    overflow-x: hidden !important; /* 수평 스크롤 숨김 */
+}
+
+/* 아이템 높이 조정 */
+.sapMITBItem {
+    height: 200rem !important; /* 기본 높이보다 줄임 */
+    line-height: 2.5rem !important; /* 텍스트 정렬 */
+    padding: 0.2rem 0.5rem !important; /* 여백 조정 */
+}
+
+
+
+
+

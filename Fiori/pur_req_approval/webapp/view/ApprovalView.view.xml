@@ -3,11 +3,12 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:t="sap.ui.table">
-    <Page id="page" title="{i18n>title}">
+    <Page id="page" title="{i18n>title}" enableScrolling="false" class="dynamicPage">
         <IconTabBar
-		id="idIconTabBar"
-		select=".onFilterSelect"
-		class="sapUiResponsiveContentPadding">
+		            id="idIconTabBar"
+		            select=".onFilterSelect"
+                    expandable="false"
+                    class="customIconTabBar">
             <items>
                 <IconTabFilter
                     showAll="true"
@@ -41,100 +42,98 @@
                     key="Complete" />     
             </items>
             <content >
-                <t:Table id="headerlist"
-                        rows="{/PureqheaderSet}"
-                        selectionMode="{viewModel>/isSelectionMode}"
-                        paste="onPaste"
-                        ariaLabelledBy="title"
-                        class="responsiveTable"
-                        visibleRowCountMode="Auto"
-                        minAutoRowCount="11"
-                        width="100%">
-                    <t:extension>
-                        <Toolbar class="customToolbar">
-                            <Label text="계획오더 Header" design="Bold"/>
-                            <ToolbarSpacer/>
-                            <SearchField ariaLabelledBy="text1" 
-                                         id="maxPrice" 
-                                         liveChange="onFilter" 
-                                         placeholder="자재코드를 입력하세요."
-                                         visible="{viewModel>/isVisible}">
-                                <layoutData>
-                                    <OverflowToolbarLayoutData maxWidth="250px" shrinkable="true" priority="NeverOverflow"/>
-                                </layoutData>
-                            </SearchField>
-                            <Button text="Reset" 
-                                    type="Ghost" 
-                                    press="onReset"
-                                    visible="{viewModel>/isVisible}"/>
-                        </Toolbar>
-                    </t:extension>
-                    <t:columns>
-                        <t:Column width="3rem" hAlign="Center">
+                    <t:Table id="headerlist"
+                            rows="{/PureqheaderSet}"
+                            selectionMode="{viewModel>/isSelectionMode}"
+                            paste="onPaste"
+                            class="changeTable"
+                            ariaLabelledBy="title"
+                            width="100%">
+                        <t:extension>
+                            <Toolbar class="customToolbar">
+                                <Label text="계획오더 Header" design="Bold"/>
+                                <ToolbarSpacer/>
+                                <SearchField ariaLabelledBy="text1" 
+                                            id="maxPrice" 
+                                            liveChange="onFilter" 
+                                            placeholder="자재코드를 입력하세요."
+                                            visible="{viewModel>/isVisible}">
+                                    <layoutData>
+                                        <OverflowToolbarLayoutData maxWidth="250px" shrinkable="true" priority="NeverOverflow"/>
+                                    </layoutData>
+                                </SearchField>
+                                <Button text="Reset" 
+                                        type="Ghost" 
+                                        press="onReset"
+                                        visible="{viewModel>/isVisible}"/>
+                            </Toolbar>
+                        </t:extension>
+                        <t:columns>
+                            <t:Column width="5%" hAlign="Center">
                                 <Label text="상태" design="Bold"/>
                                 <t:template>
                                     <core:Icon src="{path: 'Rstatus', formatter: '.statusIconColor'}" 
-                                               color="{path: 'Rstatus', formatter: '.statusIconColorCSS'}" />
+                                            color="{path: 'Rstatus', formatter: '.statusIconColorCSS'}" />
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="7rem" hAlign="Center">
+                            </t:Column>
+                            <t:Column width="10%" hAlign="Center">
                                 <Label text="구매요청번호" design="Bold"/>
                                 <t:template>
                                     <Text text="{Banfn}" wrapping="false" />
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="7rem" hAlign="Center">
+                            </t:Column>
+                            <t:Column width="10%" hAlign="Center">
                                 <Label text="계획오더번호" design="Bold"/>
                                 <t:template>
                                     <Text text="{Plordco}" wrapping="false" />
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="7rem" hAlign="Center">
+                            </t:Column>
+                            <t:Column width="10%" hAlign="Center">
                                 <Label text="구매요청일자" design="Bold"/>
                                 <t:template>
                                     <Text text="{Bedat}" wrapping="false" />
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="7rem">
-                            <Label text="수요량" design="Bold"/>
-                            <t:template>
-                                <Text text="{
-                                    parts:[{path:'Bedar'}, {path:'Meins'}],
-                                    type: 'sap.ui.model.type.Unit',
-                                    formatOptions: {showMeasure: true }
-                                    }" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="8rem" hAlign="Center">
+                            </t:Column>
+                            <t:Column width="10%" hAlign="Center">
+                                <Label text="수요량" design="Bold"/>
+                                <t:template>
+                                    <Text text="{
+                                        parts:[{path:'Bedar'}, {path:'Meins'}],
+                                        type: 'sap.ui.model.type.Unit',
+                                        formatOptions: {showMeasure: true}
+                                        }" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="15%" hAlign="Center">
                                 <Label text="자재코드" design="Bold"/>
                                 <t:template>
                                     <Text text="{Matnr}" wrapping="false"/>
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="20rem" >
+                            </t:Column>
+                            <t:Column width="30%">
                                 <Label text="자재명" design="Bold"/>
                                 <t:template>
                                     <Text text="{Maktx}" wrapping="false" />
                                 </t:template>
-                        </t:Column>
-                        <t:Column width="11rem" hAlign="Center">
-                            <Label text="구매요청 상세" design="Bold"/>
-                            <t:template>
-                                <Button
-                                        id="Detail"
-                                        text="상세"
-                                        width="100%"
-                                        press="onOpenDialog"
-                                        class="sapUiSmallMarginCenter"
-                                        ariaHasPopup="Dialog" />
-                            </t:template>
-                        </t:Column>
-                    </t:columns>
-                </t:Table>
+                            </t:Column>
+                            <t:Column width="10%" hAlign="Center">
+                                <Label text="구매요청 상세" design="Bold"/>
+                                <t:template>
+                                    <Button
+                                            id="Detail"
+                                            text="상세"
+                                            width="100%"
+                                            press="onOpenDialog"
+                                            class="sapUiSmallMarginCenter"
+                                            ariaHasPopup="Dialog" />
+                                </t:template>
+                            </t:Column>
+                        </t:columns>
+                    </t:Table>
             </content>
         </IconTabBar>
         <footer>
-            <OverflowToolbar>
+            <OverflowToolbar id="footerToolbar">
                 <Button text="정보" icon="sap-icon://hint" press="onInfoConfirm" type="Ghost"/>
                 <ToolbarSpacer />
                 <Button text="승인" icon="sap-icon://sys-enter" press="onApproveConfirm" type="Accept" visible="{viewModel>/isVisible2}"/>
