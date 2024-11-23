@@ -85,7 +85,7 @@
             <Panel>
             <headerToolbar>
                 <Toolbar class="customToolbar">
-                    <Label text="{i18n>panelTitle2}" design="Bold"/>
+                    <Label text="{i18n>panelTitle3}" design="Bold"/>
                 </Toolbar>
             </headerToolbar>
             <t:Table id="headerlist"
@@ -95,7 +95,7 @@
                      ariaLabelledBy="title"
                      width="auto">
                 <t:columns>
-                    <t:Column width="5%" hAlign="Center">
+                    <t:Column width="3%" hAlign="Center">
                         <Label text="상태" design="Bold"/>
                         <t:template>
                             <core:Icon src="{path: 'Insst', formatter: '.statusIconColor'}" 
@@ -125,7 +125,7 @@
                             <Text text="{Matnr}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="25%">
+                    <t:Column width="27%">
                         <Label text="자재명" design="Bold"/>
                         <t:template>
                             <Text text="{Maktx}" wrapping="false"/>
@@ -171,6 +171,11 @@
             </t:Table>
             </Panel>
         </vl:Grid>
+        <footer>
+            <OverflowToolbar id="footerToolbar">
+                <Button text="정보" icon="sap-icon://hint" press="onInfoConfirm" type="Ghost"/>
+            </OverflowToolbar>
+        </footer>
 
     </Page>
 </mvc:View>

@@ -29,7 +29,7 @@
                     </t:template>
                 </t:Column>
 
-                <t:Column width="20%" hAlign="Left">
+                <t:Column width="25%" hAlign="Left">
                     <Label text="자재명" design="Bold" />
                     <t:template>
                         <Text text="{Maktx}" wrapping="false" />
@@ -46,28 +46,21 @@
                 <t:Column width="8%" hAlign="Center">
                     <Label text="현재재고" design="Bold" />
                     <t:template>
-                        <Text text="{= parseFloat(parseFloat(${HRtptqua}).toFixed(2))}" wrapping="false" />
+                        <Text text="{= parseFloat(parseFloat(${HRtptqua}).toFixed(2))} {Unit}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
                 <t:Column width="8%" hAlign="Center">
                     <Label text="계획수량" design="Bold" />
                     <t:template>
-                        <Text text="{= parseFloat(parseFloat(${Pqua}).toFixed(2))}" wrapping="false" />
+                        <Text text="{= parseFloat(parseFloat(${Pqua}).toFixed(2))} {Unit}" wrapping="false" />
                     </t:template>
                 </t:Column>
 
                 <t:Column width="8%" hAlign="Center">
                     <Label text="필요소요량" design="Bold" />
                     <t:template>
-                        <Text text="{= parseFloat(parseFloat(${Rqamt}).toFixed(2))}" wrapping="false" />
-                    </t:template>
-                </t:Column>
-
-                <t:Column width="5%" hAlign="Center">
-                    <Label text="단위" design="Bold" />
-                    <t:template>
-                        <Text text="{Unit}" wrapping="false" />
+                        <Text text="{= parseFloat(parseFloat(${Rqamt}).toFixed(2))} {Unit}" wrapping="false" />
                     </t:template>
                 </t:Column>
 

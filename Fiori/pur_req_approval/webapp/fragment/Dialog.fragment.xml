@@ -40,11 +40,7 @@
                 <t:Column width="10%" hAlign="Center">
                     <Label text="요청량" design="Bold" />
                     <t:template>
-                        <Text text="{
-                            parts:[{path:'Menge'}, {path:'Meins'}],
-                            type: 'sap.ui.model.type.Unit',
-                            formatOptions: {showMeasure: true }
-                            }" wrapping="false" />
+                        <Text text="{= parseFloat(parseFloat(${Menge}).toFixed(2))} {Meins}" wrapping="false" />
                     </t:template>
                 </t:Column>
 

@@ -51,7 +51,7 @@
                             width="100%">
                         <t:extension>
                             <Toolbar class="customToolbar">
-                                <Label text="계획오더 Header" design="Bold"/>
+                                <Label text="구매요청 Header" design="Bold"/>
                                 <ToolbarSpacer/>
                                 <SearchField ariaLabelledBy="text1" 
                                             id="maxPrice" 
@@ -104,19 +104,19 @@
                                         }" wrapping="false" />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="15%" hAlign="Center">
+                            <t:Column width="10%" hAlign="Center">
                                 <Label text="자재코드" design="Bold"/>
                                 <t:template>
                                     <Text text="{Matnr}" wrapping="false"/>
                                 </t:template>
                             </t:Column>
-                            <t:Column width="30%">
+                            <t:Column width="33%">
                                 <Label text="자재명" design="Bold"/>
                                 <t:template>
                                     <Text text="{Maktx}" wrapping="false" />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="10%" hAlign="Center">
+                            <t:Column width="12%" hAlign="Center">
                                 <Label text="구매요청 상세" design="Bold"/>
                                 <t:template>
                                     <Button

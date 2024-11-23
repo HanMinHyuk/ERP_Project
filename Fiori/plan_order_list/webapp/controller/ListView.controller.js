@@ -42,8 +42,8 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
             const oTable = this.getView().byId("headerlist");
             if (oTable) {
                 // 화면 높이에서 사용할 수 있는 가용 높이 계산
-                const iAvailableHeight = window.innerHeight - 300; // 상단/하단 여백 고려
-                const iRowHeight = 38; // 각 행의 높이 (픽셀)
+                const iAvailableHeight = window.innerHeight - 310; // 상단/하단 여백 고려
+                const iRowHeight = 40; // 각 행의 높이 (픽셀)
                 const iVisibleRowCount = Math.floor(iAvailableHeight / iRowHeight); // 최소 3행
         
                 // Table의 visibleRowCount 설정
@@ -81,11 +81,10 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
             // 열 추가
             oTable.addColumn(new sap.ui.table.Column({
-                label: new sap.m.Label({ text: "계획오더번호" }),
-                template: new sap.m.Text({ text: "{Plordco}" }),
+                label: new sap.m.Label({ text: "계획오더번호" }).addStyleClass("highlight-column"),
+                template: new sap.m.Text({ text: "{Plordco}" }).addStyleClass("highlight-column"),
                 sortProperty: "Plordco",
-                filterProperty: "Plordco",
-                class: "customToolbar"
+                filterProperty: "Plordco"
             }));
             oTable.addColumn(new sap.ui.table.Column({
                 label: new sap.m.Label({ text: "자재코드" }),
@@ -255,6 +254,28 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
         onCloseDialog : function() {
             this.byId("itemDialog").close();    // 다이얼로그 창 닫기
+        },
+
+        onInfoConfirm: function() {
+            // 팝업 Dialog 생성
+            var oDialog = new sap.m.Dialog({
+                title: "정보",
+                type: "Message",
+                content: new sap.m.Text({ text: "\n● 계획오더번호 및 자재코드 입력 후 조회 버튼을 클릭하여 조회 가능합니다.\n\n" +
+                                                "● 계획오더번호 버튼 클릭 시 계획오더번호에 대한 상세 정보가 조회 됩니다.\n　" }),
+                beginButton: new sap.m.Button({
+                    text: "닫기",
+                    type: "Accept",
+                    press: function () {
+                        oDialog.close(); // 팝업 닫기
+                    }.bind(this)
+                }),
+                afterClose: function () {
+                    oDialog.destroy(); // 팝업 메모리 해제
+                }
+            });
+        
+            oDialog.open(); // 팝업 표시
         },
 
         onExit: function () {
