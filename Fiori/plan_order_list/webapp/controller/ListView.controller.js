@@ -42,7 +42,8 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
             const oTable = this.getView().byId("headerlist");
             if (oTable) {
                 // 화면 높이에서 사용할 수 있는 가용 높이 계산
-                const iAvailableHeight = window.innerHeight - 310; // 상단/하단 여백 고려
+                const iAvailableHeight = window.innerHeight - 350; // 상단/하단 여백 고려
+                console.log(window.innerHeight);
                 const iRowHeight = 40; // 각 행의 높이 (픽셀)
                 const iVisibleRowCount = Math.floor(iAvailableHeight / iRowHeight); // 최소 3행
         

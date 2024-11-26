@@ -81,8 +81,8 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
             var oTable = this.getView().byId("headerlist");
             if (oTable) {
                 // 창 높이에 따라 테이블 높이 계산
-                var iAvailableHeight = window.innerHeight - 300; // 상단과 하단 여백을 제외한 높이
-                var iRowHeight = 33; // 테이블의 행 높이(픽셀)
+                var iAvailableHeight = window.innerHeight - 280; // 상단과 하단 여백을 제외한 높이
+                var iRowHeight = 35; // 테이블의 행 높이(픽셀)
                 var iVisibleRowCount = Math.floor(iAvailableHeight / iRowHeight); // 표시할 수 있는 행 수 계산
 
                 oTable.setVisibleRowCount(iVisibleRowCount);
