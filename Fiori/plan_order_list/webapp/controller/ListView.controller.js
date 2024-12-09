@@ -225,36 +225,105 @@ function (Controller, MessageToast, Filter, FilterOperator, ODataModel, JSONMode
 
         },
 
-        onOpenDialog : function(oEvent){
-            var oButton  = oEvent.getSource();
-            var oContext = oButton.getParent().getBindingContext();   
-            var vPlordco   = oContext.getProperty('Plordco');          // 해당 코드를 통하여 ITEM의 키 필터인 aufnr의 값을 가져옴
+        onOpenDialog : function(oEvent) {
 
-            console.log(vPlordco); // 버튼이 클릭된 row의 aufnr 필드의 값이 찍히는지 확인 -> 추후에 배포 시 해당 코드 지우기
+            // 버튼 누른 Record의 계획오더번호를 가져오기 위한 기초 작업
+            var oButton  = oEvent.getSource(),
+                oContext = oButton.getParent().getBindingContext(),
+                vPlordco = oContext.getProperty('Plordco');         // 계획오더번호를 가져와서 vPlordco 변수에 넣는다.
 
-						// 팝업창
-            if(!this.pDialog){
-                this.pDialog = this.loadFragment({
-                    name : "cl3.syncyoung.pp.porder.planorderlist.fragment.Dialog"   // 이건 namespace와 .frgment.xml 파일의 이름으로 설정
-                });
-            }
-            
-            this.pDialog.then(function(oDialog){
-                var oTable = oDialog.getContent()[0];        // 다이얼로그에 보여줄 테이블 정보를 가져옴. 이 코드가 유효하려면 XML 파일에서 Dialog의 첫번째 자식이 Table이어야 함.
-
-                if (oTable && oTable.isA("sap.ui.table.Table")) {
-                    var oBinding = oTable.getBinding("rows");     // 선택한 행의 정보를 가져오고
-
-                    // 필터 설정
-                    var aFilter = [ new Filter("Plordco", FilterOperator.EQ, vPlordco )]  // 필터를 걸 필드명, 조회 조건, 특정값으로 필터를 추가
-                    oBinding.filter(aFilter);                                         //해당 필터를 테이블에 바인딩
+            // 팝업창 생성
+            let oDialog = new sap.m.Dialog(
+                {
+                    title : "총 매출액",
+                    contentWidth: "auto",
+                    contentHeight: "auto",
+                    resizable: true,
+                    draggable: true,
+                    endButton: new sap.m.Button
+                    (
+                        {
+                            text: "닫기",
+                            press: function () {
+                                oDialog.close();
+                            }.bind(this)
+                        }
+                    )
                 }
-                oDialog.open();                                                       // 다이얼로그 창 열기
-            });   
-        },
+            );
 
-        onCloseDialog : function() {
-            this.byId("itemDialog").close();    // 다이얼로그 창 닫기
+            // 테이블 생성
+            var oTable = new sap.ui.table.Table({
+                selectionMode: "None",
+                columns: [
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "계획오더번호" }),
+                        template: new sap.m.Text({ text: "{Plordco}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "BOM_ID" }),
+                        template: new sap.m.Text({ text: "{Bomid}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "자재코드" }),
+                        template: new sap.m.Text({ text: "{Matnr}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "자재명" }),
+                        template: new sap.m.Text({ text: "{Maktx}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "현재재고" }),
+                        template: new sap.m.Text({ text: "{= parseFloat(parseFloat(${HRtptqua}).toFixed(2))} {Unit}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "계획수량" }),
+                        template: new sap.m.Text({ text: "{= parseFloat(parseFloat(${Pqua}).toFixed(2))} {Unit}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "필요소요량" }),
+                        template: new sap.m.Text({ text: "{= parseFloat(parseFloat(${Rqamt}).toFixed(2))} {Unit}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "구매요청일" }),
+                        template: new sap.m.Text({ text: {
+                                                   path: 'Matod',
+                                                   type: 'sap.ui.model.type.Date',
+                                                   formatOptions: {
+                                                       style: 'long',
+                                                       source: {
+                                                           pattern: 'yyyy/MM/dd'
+                                                       }
+                                                   }
+                        } })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "공정시작일" }),
+                        template: new sap.m.Text({ text: {
+                                                   path: 'Ppstr',
+                                                   type: 'sap.ui.model.type.Date',
+                                                   formatOptions: {
+                                                       style: 'long',
+                                                       source: {
+                                                           pattern: 'yyyy/MM/dd'
+                                                       }
+                                                    }
+                        } })
+                    })
+                ]
+            });
+
+            // EntitySet 설정 (filter 포함)
+            oTable.bindRows({
+                path: "/PorderitemSet",
+                filters: [new Filter("Plordco", FilterOperator.EQ, vPlordco )] // 필터 적용
+            });
+
+            // 설정된 테이블을 팝업창에 넣고 View에 보내고 팝업창을 띄운다.
+            oDialog.addContent(oTable);
+            this.getView().addDependent(oDialog);
+            oDialog.open();
+
         },
 
         onInfoConfirm: function() {

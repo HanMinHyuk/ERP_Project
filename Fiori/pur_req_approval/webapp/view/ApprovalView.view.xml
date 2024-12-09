@@ -26,7 +26,7 @@
                     icon="sap-icon://decline"
                     iconColor="Negative"
                     count="{counts>/Rstatus2}"
-                    text="Companion"
+                    text="Reject"
                     key="Companion" />
                 <IconTabFilter
                     icon="sap-icon://accept"
@@ -97,11 +97,7 @@
                             <t:Column width="10%" hAlign="Center">
                                 <Label text="수요량" design="Bold"/>
                                 <t:template>
-                                    <Text text="{
-                                        parts:[{path:'Bedar'}, {path:'Meins'}],
-                                        type: 'sap.ui.model.type.Unit',
-                                        formatOptions: {showMeasure: true}
-                                        }" wrapping="false" />
+                                    <Text text="{= parseFloat(parseFloat(${Bedar}).toFixed(2))} {Meins}"/>
                                 </t:template>
                             </t:Column>
                             <t:Column width="10%" hAlign="Center">

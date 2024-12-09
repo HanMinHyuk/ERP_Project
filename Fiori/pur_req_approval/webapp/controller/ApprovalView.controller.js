@@ -193,7 +193,7 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
                     value1: ""
                 })
                 oViewModel.setProperty("/isVisible2", true); // 다른 탭일 때 숨기기
-                oViewModel.setProperty("/isSelectionMode", "MultiToggle"); // Wait 탭일 때 선택 못하게 만들기
+                oViewModel.setProperty("/isSelectionMode", "Single"); // Wait 탭일 때 선택 못하게 만들기
             } else {
                 oViewModel.setProperty("/isVisible", true); // All 탭일 때 보이기
             }
@@ -212,29 +212,89 @@ function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
             var oContext = oButton.getParent().getBindingContext();   
             var vBanfn   = oContext.getProperty('Banfn');          // 해당 코드를 통하여 ITEM의 키 필터인 aufnr의 값을 가져옴
 
-            console.log(vBanfn); // 버튼이 클릭된 row의 aufnr 필드의 값이 찍히는지 확인 -> 추후에 배포 시 해당 코드 지우기
-
-            // 팝업창
-            if(!this.pDialog){
-                this.pDialog = this.loadFragment({
-                    name : "cl3.syncyoung.pp.pureq.purreqapproval.fragment.Dialog"   // 이건 namespace와 .frgment.xml 파일의 이름으로 설정
-                });
-                console.log("hey");
-            }
-
-            this.pDialog.then(function(oDialog){
-                var oTable2 = oDialog.getContent()[0];        // 다이얼로그에 보여줄 테이블 정보를 가져옴. 이 코드가 유효하려면 XML 파일에서 Dialog의 첫번째 자식이 Table이어야 함.
-
-                if (oTable2 && oTable2.isA("sap.ui.table.Table")) {
-                    var oBinding = oTable2.getBinding("rows");     // 선택한 행의 정보를 가져오고
-
-                    // 필터 설정
-                    var aFilter = [ new Filter("Banfn", FilterOperator.EQ, vBanfn )]  // 필터를 걸 필드명, 조회 조건, 특정값으로 필터를 추가
-                    oBinding.filter(aFilter);                                         // 해당 필터를 테이블에 바인딩
+            // 팝업창 생성
+            let oDialog = new sap.m.Dialog(
+                {
+                    title : "구매요청 Item",
+                    contentWidth: "auto",
+                    contentHeight: "auto",
+                    resizable: true,
+                    draggable: true,
+                    endButton: new sap.m.Button
+                    (
+                        {
+                            text: "닫기",
+                            press: function () {
+                                oDialog.close();
+                            }.bind(this)
+                        }
+                    )
                 }
-                
-                oDialog.open();                                                       // 다이얼로그 창 열기
-            });   
+            );
+
+            // 테이블 생성
+            var oTable = new sap.ui.table.Table({
+                selectionMode: "None",
+                columns: [
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "구매요청번호" }),
+                        template: new sap.m.Text({ text: "{Banfn}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "계획오더번호" }),
+                        template: new sap.m.Text({ text: "{Plordco}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "자재코드" }),
+                        template: new sap.m.Text({ text: "{Matnr}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "자재명" }),
+                        template: new sap.m.Text({ text: "{Maktx}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "요청량" }),
+                        template: new sap.m.Text({ text: "{= parseFloat(parseFloat(${Menge}).toFixed(2))} {Meins}" })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "단가" }),
+                        template: new sap.m.Text({ text: {
+                            parts:[{path:'Netwr'}, {path:'Waers'}],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {showMeasure: true }
+                            } })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "희망구매요청일" }),
+                        template: new sap.m.Text({ text: {
+                            path: 'Bedat',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                            style: 'long',
+                            source: {
+                            pattern: 'yyyy/MM/dd'
+                                    }
+                                }
+                            } })
+                    }),
+                    new sap.ui.table.Column({
+                        label: new sap.m.Label({ text: "반려사유" }),
+                        template: new sap.m.Text({ text: "{Remark}" })
+                    })
+                    
+                ]
+            });
+
+            // EntitySet 설정 (filter 포함)
+            oTable.bindRows({
+                path: "/PureqitemSet",
+                filters: [new Filter("Banfn", FilterOperator.EQ, vBanfn )] // 필터 적용
+            });
+
+            // 설정된 테이블을 팝업창에 넣고 View에 보내고 팝업창을 띄운다.
+            oDialog.addContent(oTable);
+            this.getView().addDependent(oDialog);
+            oDialog.open();   
         },
 
         // 팝업창을 닫는다.

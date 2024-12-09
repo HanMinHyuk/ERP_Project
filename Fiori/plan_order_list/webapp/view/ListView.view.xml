@@ -7,7 +7,7 @@
 	xmlns:f="sap.ui.layout.form"
     xmlns:t="sap.ui.table"
     xmlns:u="sap.ui.unified">
-    <Page id="page" title="{i18n>title}" enableScrolling="false" class="sapUiContentPadding">
+    <Page id="page" title="{i18n>title}" enableScrolling="true" class="sapUiContentPadding">
         <vl:Grid defaultSpan="XL6 L6 M12 S12" width="100%">
                  
             <!-- 첫 번째 Panel -->
@@ -80,9 +80,8 @@
 
         </vl:Grid>
 
-        <vl:Grid defaultSpan="XL12 L12 M12 S12" >
 
-            <Panel>
+            <Panel class="customPanel2">
             <headerToolbar>
                 <Toolbar class="customToolbar">
                     <Label text="{i18n>panelTitle3}" design="Bold"/>
@@ -170,7 +169,6 @@
                 </t:columns>
             </t:Table>
             </Panel>
-        </vl:Grid>
         <footer>
             <OverflowToolbar id="footerToolbar">
                 <Button text="정보" icon="sap-icon://hint" press="onInfoConfirm" type="Ghost"/>
